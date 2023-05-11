@@ -1,5 +1,5 @@
 import React from 'react';
-import {createElement} from './utils.js';
+import plural from 'plural-ru';
 import './styles.css';
 
 /**
@@ -26,7 +26,9 @@ function App({store}) {
               <div className={'Item' + (item.selected ? ' Item_selected' : '')}
                    onClick={() => store.selectItem(item.code)}>
                 <div className='Item-code'>{item.code}</div>
-                <div className='Item-title'>{item.title}</div>
+                <div className='Item-title'>{item.count === 0
+                  ? item.title
+                  : `${item.title} | Выделяли ${item.count} ${plural(item.count, 'раз', 'раза', 'раз')}`}</div>
                 <div className='Item-actions'>
                   <button onClick={() => store.deleteItem(item.code)}>
                     Удалить
