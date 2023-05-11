@@ -26,3 +26,11 @@ export function createElement(name, props = {}, ...children) {
 
   return element;
 }
+
+/**
+ * Генерирует уникальный последовательное число счётчика
+ * @returns {number|number}
+ */
+export function counter(){
+  return counter.value ? ++counter.value : counter.value = 1;
+}

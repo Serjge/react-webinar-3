@@ -1,3 +1,5 @@
+import {counter} from "./utils";
+
 /**
  * Хранилище состояния приложения
  */
@@ -42,9 +44,11 @@ class Store {
    * Добавление новой записи
    */
   addItem() {
+    const code = counter();
+
     this.setState({
       ...this.state,
-      list: [...this.state.list, {code: this.state.list.length + 1, title: 'Новая запись'}]
+      list: [...this.state.list, {code, title: 'Новая запись'}]
     })
   };
 
