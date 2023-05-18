@@ -1,26 +1,32 @@
-import React from "react";
+import React, {useCallback} from "react";
 import PropTypes from "prop-types";
 import './style.css';
+import {numberFormat} from "src/utils";
 
-function Item(props){
+function Item({item, titleButton, onButton}){
 
   const callbacks = {
-    onDelete: (e) => {
-      e.stopPropagation();
-      props.onDelete(props.item.code);
-    }
-  }
+    onButton: useCallback(() => {
+      onButton(item.code)
+    }, [onButton, item.code])
+  };
 
   return (
-    <div className='Item'
-         onClick={callbacks.onClick}>
-      <div className='Item-code'>{props.item.code}</div>
-      <div className='Item-title'>
-        {props.item.title}
+    <div className='Item'>
+      <div className='Item-code'>
+        {item.code}
       </div>
+
+      <div className='Item-title'>
+        <p>{item.title}</p>
+        <p>{numberFormat(item.price)}</p>
+      </div>
+
+      {item.count && <div className='Item-amount'>{item.count} шт.</div>}
+
       <div className='Item-actions'>
-        <button onClick={callbacks.onDelete}>
-          Удалить
+        <button className='Item-button' onClick={callbacks.onButton}>
+          {titleButton}
         </button>
       </div>
     </div>
@@ -31,14 +37,10 @@ Item.propTypes = {
   item: PropTypes.shape({
     code: PropTypes.number,
     title: PropTypes.string,
-    selected: PropTypes.bool,
-    count: PropTypes.number
+    price: PropTypes.number
   }).isRequired,
-  onDelete: PropTypes.func,
+  onButton: PropTypes.func.isRequired,
+  titleButton: PropTypes.string.isRequired,
 };
-
-Item.defaultProps = {
-  onDelete: () => {},
-}
 
 export default React.memo(Item);

@@ -12,6 +12,7 @@ import PageLayout from "./components/page-layout";
 function App({store}) {
 
   const list = store.getState().list;
+  const basket = store.getState().basket;
 
   const callbacks = {
     onDeleteItem: useCallback((code) => {
@@ -20,15 +21,20 @@ function App({store}) {
 
     onAddItem: useCallback(() => {
       store.addItem();
+    }, [store]),
+
+    onAddToBasket: useCallback((code) => {
+      store.addToBasket(code);
     }, [store])
   }
 
   return (
     <PageLayout>
       <Head title='Приложение на чистом JS'/>
-      <Controls onAdd={callbacks.onAddItem}/>
+      <Controls amount={basket.amount} sum={basket.sum} onOpenModal={(() => {})}/>
       <List list={list}
-            onDeleteItem={callbacks.onDeleteItem}/>
+            onButton={callbacks.onAddToBasket}
+            titleButton="Добавить"/>
     </PageLayout>
   );
 }

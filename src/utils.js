@@ -49,3 +49,15 @@ export const generateCode1 = (function (start = 0) {
 export function generateCode2() {
   return generateCode2.value ? ++generateCode2.value : generateCode2.value = 1;
 }
+
+/**
+ * Форматирует число в российский числовой формат
+ * @returns {string}
+ */
+export const numberFormat = (number) => {
+  return new Intl.NumberFormat('ru-RU', {
+    style: 'currency',
+    currency: 'RUB',
+    minimumFractionDigits: 0
+  }).format(number);
+}

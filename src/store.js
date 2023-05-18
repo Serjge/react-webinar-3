@@ -61,6 +61,45 @@ class Store {
       list: this.state.list.filter(item => item.code !== code)
     })
   };
+
+  /**
+   * Добавление товара в корзину
+   */
+  addToBasket(code) {
+    let sum = 0;
+
+    let exists = false;
+    const items = this.state.basket.items.map(item => {
+      let result = item;
+
+      if (item.code === code) {
+        exists = true;
+        result = {...item, amount: item.amount + 1};
+      }
+
+      sum += result.price * result.amount;
+      return result
+    });
+
+    if (!exists) {
+      console.log(code)
+      console.log(this.state.list)
+      const item = this.state.list.find(item => item.code === code)
+
+      items.push({...item, amount: 1});
+      console.log(item)
+      sum += item.price;
+    }
+
+    this.setState({
+      ...this.state,
+      basket: {
+        items,
+        sum,
+        amount: items.length
+      }
+    });
+  };
 }
 
 export default Store;
