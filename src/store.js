@@ -51,14 +51,26 @@ class Store {
   };
 
   /**
-   * Удаление записи по коду
+   * Удаление товара с корзины по коду
    * @param code
    */
-  deleteItem(code) {
+  deleteToBasket(code) {
+    const newBasket = this.state.basket.items.filter(item => item.code !== code);
+
+    let sum = 0
+    newBasket.map(({price, amount}) => {
+      sum = sum + price * amount
+    })
+
     this.setState({
       ...this.state,
-      // Новый список, в котором не будет удаляемой записи
-      list: this.state.list.filter(item => item.code !== code)
+
+      basket: {
+        ...this.state.basket,
+        sum: sum,
+        amount: newBasket.length,
+        items: newBasket
+      }
     })
   };
 
@@ -82,12 +94,9 @@ class Store {
     });
 
     if (!exists) {
-      console.log(code)
-      console.log(this.state.list)
       const item = this.state.list.find(item => item.code === code)
 
       items.push({...item, amount: 1});
-      console.log(item)
       sum += item.price;
     }
 

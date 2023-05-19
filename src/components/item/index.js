@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import './style.css';
 import {numberFormat} from "src/utils";
 
-function Item({item, titleButton, onButton}){
+function Item({item, onButton}){
 
   const callbacks = {
     onButton: useCallback(() => {
@@ -22,11 +22,9 @@ function Item({item, titleButton, onButton}){
         <p>{numberFormat(item.price)}</p>
       </div>
 
-      {item.count && <div className='Item-amount'>{item.count} шт.</div>}
-
       <div className='Item-actions'>
         <button className='Item-button' onClick={callbacks.onButton}>
-          {titleButton}
+          Добавить
         </button>
       </div>
     </div>
@@ -40,7 +38,6 @@ Item.propTypes = {
     price: PropTypes.number
   }).isRequired,
   onButton: PropTypes.func.isRequired,
-  titleButton: PropTypes.string.isRequired,
 };
 
 export default React.memo(Item);
