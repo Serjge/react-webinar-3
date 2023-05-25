@@ -1,4 +1,6 @@
 import {memo, useCallback, useEffect} from 'react';
+import Loading from "../../components/loading";
+import Pagination from "../../components/pagination";
 import Item from "../../components/item";
 import PageLayout from "../../components/page-layout";
 import Head from "../../components/head";
@@ -12,13 +14,17 @@ function Main() {
   const store = useStore();
 
   useEffect(() => {
-    store.actions.catalog.load();
+    store.actions.catalog.loadProducts();
   }, []);
 
   const select = useSelector(state => ({
     list: state.catalog.list,
     amount: state.basket.amount,
-    sum: state.basket.sum
+    sum: state.basket.sum,
+    count: state.catalog.count,
+    currentPage: state.catalog.page,
+    contentPerPage: state.catalog.contentPerPage,
+    isLoading: state.catalog.isLoading,
   }));
 
   const callbacks = {
@@ -26,6 +32,8 @@ function Main() {
     addToBasket: useCallback(_id => store.actions.basket.addToBasket(_id), [store]),
     // Открытие модалки корзины
     openModalBasket: useCallback(() => store.actions.modals.open('basket'), [store]),
+    //сохранение текущей страницы
+    setCurrentPage: useCallback(page => store.actions.catalog.setPage(page), []),
   }
 
   const renders = {
@@ -39,7 +47,10 @@ function Main() {
       <Head title='Магазин'/>
       <BasketTool onOpen={callbacks.openModalBasket} amount={select.amount}
                   sum={select.sum}/>
-      <List list={select.list} renderItem={renders.item}/>
+      {select.isLoading ? <Loading/> :
+      <List list={select.list} renderItem={renders.item}/>}
+      <Pagination count={select.count} setCurrentPage={callbacks.setCurrentPage}
+                  currentPage={select.currentPage}/>
     </PageLayout>
 
   );

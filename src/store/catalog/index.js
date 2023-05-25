@@ -10,7 +10,11 @@ class Catalog extends StoreModule {
 
   initState() {
     return {
-      list: []
+      list: [],
+      count: 0,
+      isLoading: true,
+      page: 1,
+      contentPerPage: 10,
     }
   }
 
@@ -21,6 +25,33 @@ class Catalog extends StoreModule {
        ...this.getState(),
        list: json.result.items
     }, 'Загружены товары из АПИ');
+  };
+
+
+  async setPage(page) {
+
+    this.setState({
+      ...this.getState(),
+      page
+    });
+    await this.loadProducts()
+  };
+
+  /**
+   * запрос каталога с страницами
+   */
+  async loadProducts() {
+    const skip = this.getState().page * this.getState().contentPerPage - this.getState().contentPerPage
+
+    this.setState({...this.getState(), isLoading: true})
+    const response = await fetch(`/api/v1/articles?limit=10&skip=${skip}&fields=items(*),count`);
+    const json = await response.json();
+    this.setState({
+      ...this.getState(),
+      list: json.result.items,
+      count: json.result.count,
+      isLoading: false,
+    }, 'Запрос страницы товара');
   }
 }
 
