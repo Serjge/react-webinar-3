@@ -1,4 +1,5 @@
 import {memo, useCallback} from 'react';
+import {useNavigate} from "react-router-dom";
 import ItemBasket from "../../components/item-basket";
 import List from "../../components/list";
 import ModalLayout from "../../components/modal-layout";
@@ -9,6 +10,7 @@ import useSelector from "../../store/use-selector";
 function Basket() {
 
   const store = useStore();
+  const navigate = useNavigate();
 
   const select = useSelector(state => ({
     list: state.basket.list,
@@ -21,11 +23,16 @@ function Basket() {
     removeFromBasket: useCallback(_id => store.actions.basket.removeFromBasket(_id), [store]),
     // Закрытие любой модалки
     closeModal: useCallback(() => store.actions.modals.close(), [store]),
+    //Переход на страницу товара
+    onPageProduct: useCallback(id => {
+      navigate(`/articles/${id}`);
+      callbacks.closeModal();
+    }, []),
   }
 
   const renders = {
     itemBasket: useCallback((item) => {
-      return <ItemBasket item={item} onRemove={callbacks.removeFromBasket} onLink={callbacks.closeModal}/>
+      return <ItemBasket item={item} onRemove={callbacks.removeFromBasket} onLink={() => callbacks.onPageProduct(item._id)}/>
     }, [callbacks.removeFromBasket]),
   };
 

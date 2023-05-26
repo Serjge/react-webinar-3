@@ -1,4 +1,5 @@
 import {memo, useCallback, useEffect} from 'react';
+import {useNavigate} from "react-router-dom";
 import Loading from "../../components/loading";
 import Pagination from "../../components/pagination";
 import Item from "../../components/item";
@@ -12,6 +13,7 @@ import useSelector from "../../store/use-selector";
 function Main() {
 
   const store = useStore();
+  const navigate = useNavigate();
 
   useEffect(() => {
     store.actions.catalog.loadProducts();
@@ -34,11 +36,15 @@ function Main() {
     openModalBasket: useCallback(() => store.actions.modals.open('basket'), [store]),
     //сохранение текущей страницы
     setCurrentPage: useCallback(page => store.actions.catalog.setPage(page), []),
+    //Переход на страницу товара
+    onPageProduct: useCallback(id => {
+      navigate(`/articles/${id}`);
+    }, []),
   }
 
   const renders = {
     item: useCallback((item) => {
-      return <Item item={item} onAdd={callbacks.addToBasket}/>
+      return <Item item={item} onAdd={callbacks.addToBasket} onLink={() => callbacks.onPageProduct(item._id)}/>
     }, [callbacks.addToBasket]),
   };
 

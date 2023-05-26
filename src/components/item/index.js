@@ -1,7 +1,6 @@
 import {memo} from "react";
 import PropTypes from "prop-types";
 import {cn as bem} from '@bem-react/classname';
-import {Link} from "react-router-dom";
 import {numberFormat} from "../../utils";
 import './style.css';
 
@@ -15,11 +14,8 @@ function Item(props){
 
   return (
     <div className={cn()}>
-      {/*<div className={cn('code')}>{props.item._id}</div>*/}
       <div className={cn('title')}>
-        <Link className={cn('link')} to={props.item._id}>
-          {props.item.title}
-        </Link>
+        <span onClick={props.onLink} className={cn('link')}>{props.item.title}</span>
       </div>
       <div className={cn('actions')}>
         <div className={cn('price')}>{numberFormat(props.item.price)} ₽</div>
@@ -36,6 +32,7 @@ Item.propTypes = {
     price: PropTypes.number
   }).isRequired,
   onAdd: PropTypes.func,
+  onLink: PropTypes.func,
 };
 
 Item.defaultProps = {

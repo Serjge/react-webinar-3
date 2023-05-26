@@ -34,7 +34,7 @@
 }
 
 .Item-link {
-  text-decoration: none;
+  cursor: pointer;
   color: black;
 }
 
