@@ -1,4 +1,5 @@
 import BasketTool from "src/components/basket-tool";
+import Controls from "src/components/controls";
 import Head from "src/components/head";
 import PageLayout from "src/components/page-layout";
 import Loading from "../../components/loading";
@@ -44,8 +45,8 @@ function CartProduct() {
   return (
     <PageLayout>
       <Head title={select.item === null ? '' : select.item.title}/>
-      <BasketTool onOpen={callbacks.openModalBasket} amount={select.amount}
-                  sum={select.sum}/>
+      <Controls amount={select.amount} sum={select.sum}
+                openModalBasket={callbacks.openModalBasket}/>
       {select.item !== null ? <Cart item={select.item} onAdd={callbacks.addToBasket}/> :
         <NotFounts/>}
     </PageLayout>
