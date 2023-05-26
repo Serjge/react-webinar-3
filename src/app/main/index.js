@@ -23,10 +23,11 @@ function Main() {
     list: state.catalog.list,
     amount: state.basket.amount,
     sum: state.basket.sum,
-    count: state.catalog.count,
+    // count: state.catalog.count,
     currentPage: state.catalog.page,
-    contentPerPage: state.catalog.contentPerPage,
+    // contentPerPage: state.catalog.contentPerPage,
     isLoading: state.catalog.isLoading,
+    totalPages: state.catalog.totalPages,
   }));
 
   const callbacks = {
@@ -56,8 +57,8 @@ function Main() {
                 openModalBasket={callbacks.openModalBasket}/>
       {select.isLoading ? <Loading/> :
       <List list={select.list} renderItem={renders.item}/>}
-      <Pagination count={select.count} setCurrentPage={callbacks.setCurrentPage}
-                  currentPage={select.currentPage}/>
+      <Pagination setCurrentPage={callbacks.setCurrentPage}
+                  currentPage={select.currentPage} totalPages={select.totalPages}/>
     </PageLayout>
 
   );

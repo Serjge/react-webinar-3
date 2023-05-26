@@ -2,13 +2,12 @@ import React, {useState, useEffect} from "react";
 
 /**
  * Хук пагинации
- * @param contentPerPage
- * @param count
+ * @param totalPages
  * @param currentPage
  * @return
  */
 
-const usePagination = (contentPerPage, count, currentPage=1) => {
+const usePagination = (totalPages = 0, currentPage=1) => {
   const [page, setPage] = useState(currentPage);
   const [gaps, setGaps] = useState({
     before: false,
@@ -17,7 +16,7 @@ const usePagination = (contentPerPage, count, currentPage=1) => {
   });
   const [pagesInBetween, setPagesInBetween] = useState([]);
 
-  const totalPages = Math.ceil(count / contentPerPage);
+  // const totalPages = Math.ceil(count / contentPerPage);
 
 // если больше 2 страниц заполнение масива цифрами кроме первой страницы и последней
   useEffect(() => {
@@ -71,7 +70,6 @@ const usePagination = (contentPerPage, count, currentPage=1) => {
   }, [page, pagesInBetween, totalPages]);
 
   return {
-    totalPages,
     setPage,
     page,
     gaps,

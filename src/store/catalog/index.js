@@ -15,6 +15,7 @@ class Catalog extends StoreModule {
       isLoading: true,
       page: 1,
       contentPerPage: 10,
+      totalPages: 0,
     }
   }
 
@@ -46,11 +47,15 @@ class Catalog extends StoreModule {
     this.setState({...this.getState(), isLoading: true})
     const response = await fetch(`/api/v1/articles?limit=10&skip=${skip}&fields=items(*),count`);
     const json = await response.json();
+    const totalPages = Math.ceil(json.result.count / this.getState().contentPerPage);
+
+
     this.setState({
       ...this.getState(),
       list: json.result.items,
       count: json.result.count,
       isLoading: false,
+      totalPages,
     }, 'Запрос страницы товара');
   }
 }
