@@ -57,7 +57,7 @@ class Categories extends StoreModule {
         sortMenu.splice(indexParentMenu + 1, 0, ...subMenu)
       }
     })
-    console.log(sortMenu)
+
     // Установка полученных данных и сброс признака загрузки
     this.setState({
       ...this.getState(),

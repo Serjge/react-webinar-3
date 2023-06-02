@@ -1,4 +1,5 @@
 import {memo} from 'react';
+import TopContainer from "src/containers/top";
 import useStore from "../../hooks/use-store";
 import useTranslate from "../../hooks/use-translate";
 import useInit from "../../hooks/use-init";
@@ -22,6 +23,7 @@ function Main() {
 
   return (
     <PageLayout>
+      <TopContainer/>
       <Head title={t('title')}>
         <LocaleSelect/>
       </Head>

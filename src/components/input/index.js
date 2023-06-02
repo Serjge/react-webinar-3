@@ -27,7 +27,7 @@ function Input(props) {
   const cn = bem('Input');
   return (
     <input
-      className={cn({theme: props.theme})}
+      className={cn({theme: props.theme, size: props.size})}
       value={value}
       type={props.type}
       placeholder={props.placeholder}
@@ -43,6 +43,7 @@ Input.propTypes = {
   placeholder: PropTypes.string,
   onChange: PropTypes.func,
   theme: PropTypes.string,
+  size: PropTypes.oneOf(['long', 'medium']),
 }
 
 Input.defaultProps = {
