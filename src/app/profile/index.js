@@ -30,7 +30,7 @@ function Profile() {
   }));
 
   useEffect(()=> {
-  if(!select.isLogin && !select.isInitialize) {
+  if(!select.isLogin && select.isInitialize) {
     navigate('/login');
   }
 },[select.isLogin]);

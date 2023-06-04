@@ -49,7 +49,7 @@ class Categories extends StoreModule {
 
         children.map(child => {
           const index = menu.findIndex(({_id}) => _id === child)
-          const prefixesName = '-'.repeat(menu[index].prefixMenu)
+          const prefixesName = '- '.repeat(menu[index].prefixMenu)
           const newTitle = `${prefixesName} ${menu[index].title}`
           subMenu.push({_id: child, title: newTitle, value: child})
         })

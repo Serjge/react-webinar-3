@@ -1,5 +1,6 @@
 import {memo, useCallback, useMemo} from 'react';
 import {useParams} from "react-router-dom";
+import TopContainer from "src/containers/top";
 import useStore from "../../hooks/use-store";
 import useSelector from "../../hooks/use-selector";
 import useTranslate from "../../hooks/use-translate";
@@ -35,6 +36,7 @@ function Article() {
 
   return (
     <PageLayout>
+      <TopContainer/>
       <Head title={select.article.title}>
         <LocaleSelect/>
       </Head>
