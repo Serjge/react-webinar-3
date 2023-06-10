@@ -26,13 +26,14 @@ export default {
       dispatch({type: 'comments/load',})
 
       try {
-        const json = await services.api.request({url: `/api/v1/comments?search[parent]=${_id}&fields=_id,text,dateCreate,parent(_type,_id),author(profile(name))&limit=*`});
+        const json = await services.api.request({url: `/api/v1/comments?search[parent]=${_id}&fields=_id,text,dateCreate,parent(_type,_id),author(profile(name),_id)&limit=*`});
 
         const comments = [...treeToList(
           listToTreeComments(json.data.result.items, _id),
           (item, level) => ({
             id: item._id,
             author: item.author.profile.name,
+            authorId: item.author._id,
             level,
             text: item.text,
             dateCreate: item.dateCreate,

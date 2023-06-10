@@ -3,6 +3,7 @@ import {useParams} from "react-router-dom";
 import Comments from "src/components/comments";
 import Comment from "src/components/comments/coment";
 import ProtectedComments from "src/containers/protected-comments";
+import useSelector from "src/hooks/use-selector";
 import useStore from "../../hooks/use-store";
 import useTranslate from "../../hooks/use-translate";
 import useInit from "../../hooks/use-init";
@@ -28,6 +29,10 @@ function Article() {
     dispatch(articleActions.load(params.id));
   }, [params.id]);
 
+  const selectState = useSelector(state => ({
+    userId: state.session.user._id
+  }));
+
   const select = useSelectorRedux(state => ({
     article: state.article.data,
     waiting: state.article.waiting,
@@ -52,11 +57,12 @@ function Article() {
 
   const renders = {
     comment: useCallback(item => (
-      <Comment textEditor={select.textEditor} setEditor={callbacks.setEditor}
-               comment={item} key={item.id}>
-        <ProtectedComments id={item.id} redirect={'/login'}/>
-      </Comment>
-    ), [select.textEditor]),
+        <Comment textEditor={select.textEditor} setEditor={callbacks.setEditor}
+                 comment={item} key={item.id}
+                 isActiveAuthor={selectState.userId === item.authorId}>
+          <ProtectedComments id={item.id} redirect={'/login'}/>
+        </Comment>
+      ), [select.textEditor, selectState.userId]),
   };
 
   return (

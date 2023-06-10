@@ -3,7 +3,7 @@ import propTypes from 'prop-types';
 import {cn as bem} from '@bem-react/classname'
 import './style.css';
 
-function Comment({comment, children, setEditor, textEditor}) {
+function Comment({comment, children, setEditor, textEditor, isActiveAuthor}) {
   const {dateCreate, level, author, text, id} = comment;
   const cn = bem('Comment');
 
@@ -27,7 +27,7 @@ function Comment({comment, children, setEditor, textEditor}) {
     <div className={cn()} style={{paddingLeft: `${String(level * 30)}px`}}>
       <div className={cn('container')}>
 
-        <p className={cn('author')}>{author}</p>
+        <p className={cn('author', {active: isActiveAuthor})}>{author}</p>
         <p className={cn('data')}>{date} в {time}</p>
 
       </div>
@@ -45,6 +45,7 @@ Comment.propTypes = {
   children: propTypes.node.isRequired,
   setEditor: propTypes.func.isRequired,
   textEditor: propTypes.string.isRequired,
+  isActiveAuthor: propTypes.bool,
 }
 
 Comment.defaultProps = {

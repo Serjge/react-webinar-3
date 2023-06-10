@@ -12,6 +12,10 @@
     color: #000000;
 }
 
+.Comment-author_active {
+    color: #666666;
+}
+
 .Comment-data {
     margin: 0 0 0 10px;
     font-style: normal;
@@ -27,6 +31,7 @@
     font-weight: 400;
     font-size: 14px;
     line-height: 16px;
+    word-wrap: break-word;
     color: #000000;
 }
 
