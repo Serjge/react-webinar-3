@@ -37,14 +37,15 @@ function Article() {
     article: state.article.data,
     waiting: state.article.waiting,
     comments: state.comments.data,
-    textEditor: state.comments.textEditor,
+    textEditorId: state.comments.textEditorId,
+    textEditorLevel: state.comments.textEditorLevel,
     rerender: state.comments.rerender,
     waitingComments: state.comments.waiting,
   }), shallowequal); // Нужно указать функцию для сравнения свойства объекта, так как хуком вернули объект
 
   useInit(async () => {
     dispatch(commentsActions.loadComments(params.id));
-    dispatch(commentsActions.setEditor(params.id));
+    dispatch(commentsActions.setEditor(params.id, 0, params.id));
   }, [params.id, select.rerender]);
 
   const {t} = useTranslate();
@@ -52,17 +53,22 @@ function Article() {
   const callbacks = {
     // Добавление в корзину
     addToBasket: useCallback(_id => store.actions.basket.addToBasket(_id), [store]),
-    setEditor: useCallback(id => dispatch(commentsActions.setEditor(id)), []),
+    setEditor: useCallback((textEditorId, level, commentId) => {
+      dispatch(commentsActions.setEditor(textEditorId, level, commentId))
+    }, []),
   }
 
   const renders = {
     comment: useCallback(item => (
-        <Comment textEditor={select.textEditor} setEditor={callbacks.setEditor}
+      <>
+        <Comment textEditor={select.textEditorId} setEditor={callbacks.setEditor}
                  comment={item} key={item.id}
                  isActiveAuthor={selectState.userId === item.authorId}>
-          <ProtectedComments id={item.id} redirect={'/login'}/>
         </Comment>
-      ), [select.textEditor, selectState.userId]),
+
+        <ProtectedComments id={item.id} redirect={'/login'} />
+      </>
+      ), [select.textEditorId, selectState.userId]),
   };
 
   return (

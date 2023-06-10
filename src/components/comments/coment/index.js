@@ -2,8 +2,10 @@ import React, {useCallback} from 'react';
 import propTypes from 'prop-types';
 import {cn as bem} from '@bem-react/classname'
 import './style.css';
+import Level from "src/components/level";
+import treeToList from "src/utils/tree-to-list";
 
-function Comment({comment, children, setEditor, textEditor, isActiveAuthor}) {
+function Comment({comment, setEditor, textEditor, isActiveAuthor}) {
   const {dateCreate, level, author, text, id} = comment;
   const cn = bem('Comment');
 
@@ -19,12 +21,15 @@ function Comment({comment, children, setEditor, textEditor, isActiveAuthor}) {
     minute: '2-digit'
   });
 
+  const lastComment = treeToList(comment.children)
+  const textEditorId = lastComment.length !==0 ? lastComment[lastComment.length -1]._id : comment.id
+
   const callbacks = {
-    setEditor: useCallback(() => setEditor(comment.id), [])
+    setEditor: useCallback(() => setEditor(textEditorId, comment.level, comment.id), [])
   };
 
   return (
-    <div className={cn()} style={{paddingLeft: `${String(level * 30)}px`}}>
+    <Level level={level}>
       <div className={cn('container')}>
 
         <p className={cn('author', {active: isActiveAuthor})}>{author}</p>
@@ -32,17 +37,14 @@ function Comment({comment, children, setEditor, textEditor, isActiveAuthor}) {
 
       </div>
       <p className={cn('text')}>{text}</p>
-
-      {children}
       {id === textEditor ? null :
         <div onClick={callbacks.setEditor} className={cn('answer')}>Ответить</div>}
-    </div>
+    </Level>
   );
 }
 
 Comment.propTypes = {
   comment: propTypes.object.isRequired,
-  children: propTypes.node.isRequired,
   setEditor: propTypes.func.isRequired,
   textEditor: propTypes.string.isRequired,
   isActiveAuthor: propTypes.bool,
