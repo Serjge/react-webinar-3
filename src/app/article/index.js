@@ -24,10 +24,11 @@ function Article() {
   const dispatch = useDispatch();
   // Параметры из пути /articles/:id
   const params = useParams();
+  const {t, lang} = useTranslate();
 
   useInit(() => {
     dispatch(articleActions.load(params.id));
-  }, [params.id]);
+  }, [params.id, lang]);
 
   const selectState = useSelector(state => ({
     userId: state.session.user._id
@@ -46,9 +47,8 @@ function Article() {
   useInit(async () => {
     dispatch(commentsActions.loadComments(params.id));
     dispatch(commentsActions.setEditor(params.id, 0, params.id));
-  }, [params.id, select.rerender]);
+  }, [params.id, select.rerender, lang]);
 
-  const {t} = useTranslate();
 
   const callbacks = {
     // Добавление в корзину

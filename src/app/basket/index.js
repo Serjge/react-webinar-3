@@ -1,8 +1,7 @@
 import {memo, useCallback} from 'react';
-import {useDispatch, useStore as useStoreRedux} from 'react-redux';
+import {useDispatch} from 'react-redux';
 import useStore from "../../hooks/use-store";
 import useSelector from "../../hooks/use-selector";
-import useInit from "../../hooks/use-init";
 import useTranslate from "../../hooks/use-translate";
 import ItemBasket from "../../components/item-basket";
 import List from "../../components/list";
@@ -31,7 +30,7 @@ function Basket() {
     }, [store]),
   }
 
-  const {t} = useTranslate();
+  const {t, lang} = useTranslate();
 
   const renders = {
     itemBasket: useCallback((item) => (
@@ -42,7 +41,7 @@ function Basket() {
                   labelUnit={t('basket.unit')}
                   labelDelete={t('basket.delete')}
       />
-    ), [callbacks.removeFromBasket, t]),
+    ), [callbacks.removeFromBasket, t, lang]),
   };
 
   return (

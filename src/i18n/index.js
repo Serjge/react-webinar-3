@@ -10,6 +10,9 @@ class I18nService {
     this.services = services;
     this.config = config
     this.lang = this.config.lang
+    this.services.api.defaultHeaders = {
+      'Accept-Language' : this.lang
+    }
     this.listeners = []; // Слушатели изменений состояния
   }
 
@@ -33,6 +36,7 @@ class I18nService {
   setLang(lang) {
     if (lang) {
       this.lang = lang;
+      this.services.api.setHeader('Accept-Language', lang)
     }
     for (const listener of this.listeners) listener();
   }
